@@ -1,19 +1,20 @@
 {
-  "name": "finder-sort",
+  "name": "@magicdawn/finder-sort",
   "version": "0.3.3",
   "description": "Sort file names in order meaningful for humans (inspired by OSX Finder)",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
-    "index.js",
-    "index.d.ts"
+    "lib"
   ],
   "scripts": {
-    "test": "ava && tsd"
+    "test": "ava",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taw/finder-sort.git"
+    "url": "git+https://github.com/magicdawn/finder-sort.git"
   },
   "keywords": [
     "sort",
@@ -22,11 +23,23 @@
   "author": "Tomasz Wegrzanowski <Tomasz.Wegrzanowski@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/taw/finder-sort/issues"
+    "url": "https://github.com/magicdawn/finder-sort/issues"
   },
-  "homepage": "https://github.com/taw/finder-sort#readme",
+  "homepage": "https://github.com/magicdawn/finder-sort#readme",
   "devDependencies": {
-    "ava": "^1.0.1",
-    "tsd": "^0.26.1"
+    "@tsconfig/recommended": "^1.0.2",
+    "@types/node": "^18.14.6",
+    "ava": "^5.2.0",
+    "ts-node": "^10.9.1",
+    "tsd": "^0.26.1",
+    "typescript": "^4.9.5"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   }
 }

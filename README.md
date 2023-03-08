@@ -1,3 +1,12 @@
+## fork detail
+
+- TypeScript
+- `options.mapKey`
+- `options.locale` the locale for `String.prototype.localeCompare`
+- `options.folderFirst` put folder before normal file
+
+---
+
 Sort file names in order meaningful for humans (inspired by OSX Finder).
 
 So `cat9.jpg` comes before `cat10.jpg`, it's case insensitive except as tie-breaker, is aware of multi-part paths and so on.
