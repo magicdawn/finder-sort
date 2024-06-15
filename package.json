@@ -1,6 +1,6 @@
 {
   "name": "@magicdawn/finder-sort",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Sort file names in order meaningful for humans (inspired by OSX Finder)",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
