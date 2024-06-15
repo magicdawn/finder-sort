@@ -10,7 +10,7 @@
   "scripts": {
     "test": "ava",
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm test && pnpm build"
   },
   "repository": {
     "type": "git",
