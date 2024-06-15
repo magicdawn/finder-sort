@@ -27,9 +27,11 @@
   },
   "homepage": "https://github.com/magicdawn/finder-sort#readme",
   "devDependencies": {
+    "@magicdawn/prettier-config": "^0.0.3",
     "@tsconfig/recommended": "^1.0.6",
     "@types/node": "^20.14.2",
     "ava": "^6.1.3",
+    "fast-sort": "^3.4.0",
     "ts-node": "^10.9.2",
     "tsd": "^0.31.0",
     "typescript": "^5.4.5"
@@ -45,5 +47,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631"
+  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631",
+  "prettier": "@magicdawn/prettier-config"
 }

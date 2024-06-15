@@ -39,26 +39,41 @@ export function finderSort<T extends string | NoneString>(
   data: T[] | readonly T[],
   options: { mapKey?: (item: T) => string; folderFirst?: boolean; locale?: string } = {}
 ) {
-  function finderKey(str: string) {
-    str = forceNumbersIntoOrder(str) // number
-    const splited = str.split('/')
-    if (options.folderFirst) {
-      splited.forEach((dir, index) => {
-        if (index !== splited.length - 1) {
-          splited[index] = '0'.repeat(20) + splited[index] // pad with many zero
-        }
-      })
-    }
-    return separateExtensions(splited)
-  }
+  const mapped = data.map((item) => {
+    const key = typeof item === 'string' ? item : options.mapKey!(item)
+    const sortKey = getFinderSortKey(key, options.folderFirst)
+    return { item, sortKey }
+  })
 
-  function cascadeLocalecompare(a: string[], b: string[]) {
+  const compare = createFinderSortKeyComparator(options.locale)
+  mapped.sort((a, b) => compare(a.sortKey, b.sortKey))
+  return mapped.map((m) => m.item)
+}
+export default finderSort
+
+export type FinderSortKey = ReturnType<typeof getFinderSortKey>
+
+export function getFinderSortKey(filePath: string, folderFirst?: boolean) {
+  filePath = forceNumbersIntoOrder(filePath) // number
+  const splited = filePath.split('/')
+  if (folderFirst) {
+    splited.forEach((dir, index) => {
+      if (index !== splited.length - 1) {
+        splited[index] = '0'.repeat(20) + splited[index] // pad with many zero
+      }
+    })
+  }
+  return separateExtensions(splited)
+}
+
+export function createFinderSortKeyComparator(locale?: string) {
+  return function cascadeLocalecompare(a: FinderSortKey, b: FinderSortKey) {
     let common_len = Math.min(a.length, b.length)
     for (let i = 0; i < common_len; i++) {
       if (a[i] === b[i]) {
         continue
       }
-      let r = options.locale ? a[i].localeCompare(b[i], options.locale) : a[i].localeCompare(b[i])
+      let r = locale ? a[i].localeCompare(b[i], locale) : a[i].localeCompare(b[i])
       if (r !== 0) {
         return r
       } else if (a > b) {
@@ -69,14 +84,4 @@ export function finderSort<T extends string | NoneString>(
     }
     return a.length - b.length
   }
-
-  const maped = data.map((item, i) => {
-    const key = typeof item === 'string' ? item : options.mapKey!(item)
-    const orderKey = finderKey(key)
-    return { item, orderKey }
-  })
-  maped.sort((a, b) => cascadeLocalecompare(a.orderKey, b.orderKey))
-  return maped.map((m) => m.item)
 }
-
-export default finderSort

@@ -1,6 +1,7 @@
 import test from 'ava'
+import { sort } from 'fast-sort'
 import { expectType } from 'tsd'
-import finderSort from '..'
+import { createFinderSortKeyComparator, finderSort, getFinderSortKey } from '../src'
 
 // https://support.apple.com/kb/TA22935?locale=en_US
 test('sorting in Finder order, returns new sorted array', (t) => {
@@ -97,4 +98,47 @@ test('type usage', (t) => {
     expectType<{ file: string; index: number }[]>(sorted)
   }
   t.pass()
+})
+
+test('works with fast-sort or _.orderBy', (t) => {
+  let data = Object.freeze([
+    { file: '啊.txt', val: 1 },
+    { file: '啊.txt', val: 2 },
+    { file: '包青天/1.mp4', val: 1 },
+    { file: '包青天/1.mp4', val: 2 },
+  ])
+
+  {
+    const sorted = sort(data).by([
+      {
+        asc: (item) => getFinderSortKey(item.file, true),
+        comparer: createFinderSortKeyComparator('zh-CN'),
+      },
+      { asc: 'val' },
+    ])
+    const expected = [
+      { file: '包青天/1.mp4', val: 1 },
+      { file: '包青天/1.mp4', val: 2 },
+      { file: '啊.txt', val: 1 },
+      { file: '啊.txt', val: 2 },
+    ]
+    t.deepEqual(sorted, expected)
+  }
+
+  {
+    const sorted = sort(data).by([
+      {
+        asc: (item) => getFinderSortKey(item.file),
+        comparer: createFinderSortKeyComparator('zh-CN'),
+      },
+      { desc: 'val' },
+    ])
+    const expected = [
+      { file: '啊.txt', val: 2 },
+      { file: '啊.txt', val: 1 },
+      { file: '包青天/1.mp4', val: 2 },
+      { file: '包青天/1.mp4', val: 1 },
+    ]
+    t.deepEqual(sorted, expected)
+  }
 })
