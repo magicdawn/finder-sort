@@ -4,6 +4,11 @@
 - `options.mapKey`
 - `options.locale` the locale for `String.prototype.localeCompare`
 - `options.folderFirst` put folder before normal file
+- helper function `getFinderSortKey` & `createFinderSortKeyComparator`
+
+### helper function
+
+U can `map(filePath)` -> `FinderSortKey`, then compare by `createFinderSortKeyComparator(locale?: string)`
 
 ---
 
